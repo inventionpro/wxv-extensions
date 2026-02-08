@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Maker</title>
+  </head>
+  <body>
+    <label>Title: <input id="title" minlength="1" maxlength="50"></label>
+    <br>
+    <label>Icon: <input id="icon" type="file"></label>
+    <br>
+    <label>Version: <input id="version" minlength="1" maxlength="20"></label>
+    <br>
+    <label>Author: <input id="author" minlength="1" maxlength="20"></label>
+    <br>
+    <label>Description: <input id="desc" maxlength="250"></label>
+    <hr>
+    <b>Hooks:</b>
+    <br>
+    <button id="new">New</button>
+    <div></div>
+    <select>
+      <option>JS</option>
+    </select>
+    <br>
+    <textarea id="code"></textarea>
+    <hr>
+    <label>Pretty <input id="pretty" type="checkbox"></label>
+    <br>
+    <button id="make">Make!</button>
+    <a id="down" style="display:none"></a>
+    <script>
+      document.getElementById('make').onclick = ()=>{
+        let json = {};
+        json.title = document.getElementById('title').value;
+        json.icon = document.getElementById('icon').files[0];
+        json.version = document.getElementById('version').value;
+        json.author = document.getElementById('author').value;
+        json.desc = document.getElementById('desc').value;
+
+        let content = document.getElementById('pretty').checked?JSON.stringify(json, null, 2):JSON.stringify(json);
+        content = URL.createObjectURL(new Blob([content], { type: 'application/json' }));
+
+        let a = document.getElementById('down');
+        a.download = json.title.replaceAll(/[^a-zA-Z0-9_-]/g,'_')+'.json';
+        a.href = content;
+        a.click();
+        URL.revokeObjectURL(content);
+      };
+    </script>
+  </body>
+</html>

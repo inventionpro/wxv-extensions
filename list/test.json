@@ -1,0 +1,12 @@
+{
+  "name": "Redirector",
+  "version": "0.1.0",
+  "author": "Inv",
+  "description": "Redirects",
+  "hooks": {
+    "beforeRequest": {
+      "type": "js",
+      "code": "request.url='search.app';return request"
+    }
+  }
+}
