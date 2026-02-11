@@ -2,6 +2,14 @@
 <html lang="en">
   <head>
     <title>Maker</title>
+    <meta name="color-scheme" content="dark light">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        font-family: Lexend, Arial, sans-serif;
+        margin: 25px;
+      }
+    </style>
   </head>
   <body>
     <label>Title: <input id="title" minlength="1" maxlength="50"></label>
@@ -15,7 +23,6 @@
     <label>Description: <input id="desc" maxlength="250"></label>
     <hr>
     <b>Hooks:</b>
-    <br>
     <button id="new">New</button>
     <div id="hooks"></div>
     <select id="type">
@@ -32,7 +39,7 @@
       let hooks = {};
       let select = '';
       function hookshow() {
-        document.getElementById('hooks').innerHTML = Object.entries(hooks).map(h=>`<span><button onclick="hookselect('${h[0]}')">${h[0]}</button> <button onclick="hookrem('${h[0]}')">x</button></span>`);
+        document.getElementById('hooks').innerHTML = Object.entries(hooks).map(h=>`<span><button onclick="hookselect('${h[0]}')">${h[0]}</button><button onclick="hookrem('${h[0]}')">x</button></span>`).join(', ');
       }
       function hookselect(hook) {
         select = hook;
@@ -40,6 +47,7 @@
       }
       function hookrem(hook) {
         delete hooks[hook];
+        hookshow();
       }
       document.getElementById('new').onclick = ()=>{
         let hook = prompt('hook name');
