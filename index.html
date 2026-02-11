@@ -30,11 +30,13 @@
     <a id="down" style="display:none"></a>
     <script>
       let hooks = {};
+      let select = '';
       function hookshow() {
         document.getElementById('hooks').innerHTML = Object.entries(hooks).map(h=>`<span><button onclick="hookselect('${h[0]}')">${h[0]}</button> <button onclick="hookrem('${h[0]}')">x</button></span>`);
       }
       function hookselect(hook) {
-        document.getElementById('code').value = hooks[hook].content;
+        select = hook;
+        document.getElementById('code').value = hooks[hook].code;
       }
       function hookrem(hook) {
         delete hooks[hook];
@@ -49,6 +51,10 @@
         hooks[hook] = { type: document.getElementById('type').value, code: ''};
         hookshow();
         hookselect(hook);
+      };
+      document.getElementById('code').oninput = (evt)=>{
+        if (!select) evt.preventDefault();
+        hooks[select].code = evt.target.value.trim();
       };
       document.getElementById('make').onclick = async()=>{
         let json = {};
