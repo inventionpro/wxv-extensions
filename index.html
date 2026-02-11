@@ -17,8 +17,8 @@
     <b>Hooks:</b>
     <br>
     <button id="new">New</button>
-    <div></div>
-    <select>
+    <div id="hooks"></div>
+    <select id="type">
       <option>JS</option>
     </select>
     <br>
@@ -29,13 +29,47 @@
     <button id="make">Make!</button>
     <a id="down" style="display:none"></a>
     <script>
-      document.getElementById('make').onclick = ()=>{
+      let hooks = {};
+      function hookshow() {
+        document.getElementById('hooks').innerHTML = Object.entries(hooks).map(h=>`<span><button onclick="hookselect('${h[0]}')">${h[0]}</button> <button onclick="hookrem('${h[0]}')">x</button></span>`);
+      }
+      function hookselect(hook) {
+        document.getElementById('code').value = hooks[hook].content;
+      }
+      function hookrem(hook) {
+        delete hooks[hook];
+      }
+      document.getElementById('new').onclick = ()=>{
+        let hook = prompt('hook name');
+        if (!hook) return;
+        if (hooks[hook]) {
+          alert(hook+' already exists');
+          return;
+        }
+        hooks[hook] = { type: document.getElementById('type').value, code: ''};
+        hookshow();
+        hookselect(hook);
+      };
+      document.getElementById('make').onclick = async()=>{
         let json = {};
         json.title = document.getElementById('title').value;
         json.icon = document.getElementById('icon').files[0];
         json.version = document.getElementById('version').value;
         json.author = document.getElementById('author').value;
         json.desc = document.getElementById('desc').value;
+
+        if (json.icon) {
+          await new Promise((resolve)=>{
+            const reader = new FileReader();
+            reader.onload = ()=>{
+              json.icon = reader.result;
+              resolve();
+            };
+            reader.readAsDataURL(json.icon);
+          });
+        }
+
+        json.hooks = hooks;
 
         let content = document.getElementById('pretty').checked?JSON.stringify(json, null, 2):JSON.stringify(json);
         content = URL.createObjectURL(new Blob([content], { type: 'application/json' }));
