@@ -9,18 +9,25 @@
         font-family: Lexend, Arial, sans-serif;
         margin: 25px;
       }
+      input:invalid {
+        padding: 2px 3px;
+        border: 1px red solid;
+        border-radius: 0.1rem;
+      }
     </style>
   </head>
   <body>
-    <label>Title: <input id="title" minlength="1" maxlength="50"></label>
-    <br>
-    <label>Icon: <input id="icon" type="file"></label>
-    <br>
-    <label>Version: <input id="version" minlength="1" maxlength="20"></label>
-    <br>
-    <label>Author: <input id="author" minlength="1" maxlength="20"></label>
-    <br>
-    <label>Description: <textarea id="desc" maxlength="250"></textarea></label>
+    <form onsubmit="event.preventDefault()">
+      <label>Title: <input id="title" minlength="1" maxlength="50" required></label>
+      <br>
+      <label>Icon: <input id="icon" type="file"></label>
+      <br>
+      <label>Version: <input id="version" minlength="1" maxlength="20" required></label>
+      <br>
+      <label>Author: <input id="author" minlength="1" maxlength="20" required></label>
+      <br>
+      <label>Description:<br><textarea id="desc" maxlength="250"></textarea></label>
+    </form>
     <hr>
     <b>Hooks:</b>
     <button id="new">New</button>
@@ -98,3 +105,4 @@
   </body>
 
 </html>
+
