@@ -15,12 +15,12 @@ An extension file is a json object with the following properties:
 ### hooks
 
 each object key is the hook, the ones available are:
-- netRequest: (Request: { url: string }) => Request | { block: true }
-- netResponse: (Response: string) => Response
-- tabCreate: (Tab: wxv_object) => void
-- tabLoad: (Tab: wxv_object) => void
-- tabFocus: (Tab: wxv_object) => void
-- tabClose: (Tab: wxv_object) => void
+- netRequest: (request: { url: String }) => { url: String } | { block: true }
+- netResponse: (response: String) => String
+- tabCreate: (tab: Tab) => void
+- tabLoad: (tab: Tab) => void
+- tabFocus: (tab: Tab) => void
+- tabClose: (tab: Tab) => void
 
 the strucutre of inner object contains:
 - type: currently only "JS"
